@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api;
+namespace Budkit\Api;
 
 use Budkit\Application\Support\Service;
 use Budkit\Dependency\Container;
@@ -20,7 +20,7 @@ class Provider implements Service {
 
     public function onRegister() {
 
-        \Route::attach("/api", "App\\Api\\Controller\\Protocol", function($route){
+        \Route::attach("/api", "Budkit\\Api\\Controller\\Protocol", function($route){
             $route->setTokens(array(
                 'id'		=> '\d+',
                 'format'	=> '(\.[^/]+)?'

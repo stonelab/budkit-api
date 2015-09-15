@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\Controller;
+namespace Budkit\Api\Controller;
 
 use Budkit\Dependency\Container as Application;
 
