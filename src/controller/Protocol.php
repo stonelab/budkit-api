@@ -2,11 +2,12 @@
 
 namespace Budkit\Api\Controller;
 
-use Budkit\Dependency\Container as Application;
+use Budkit\Dependency\Container;
+use Budkit\Routing\Controller;
 
 class Protocol extends Controller {
 
-    public function __construct(Application $application) {
+    public function __construct(Container $application) {
         parent::__construct($application);
     }
 
