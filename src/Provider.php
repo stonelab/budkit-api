@@ -4,6 +4,7 @@ namespace Budkit\Api;
 
 use Budkit\Application\Support\Service;
 use Budkit\Dependency\Container;
+use Route;
 
 class Provider implements Service {
 
@@ -20,17 +21,39 @@ class Provider implements Service {
 
     public function onRegister() {
 
-        \Route::attach("/api", "Budkit\\Api\\Controller\\Protocol", function($route){
+        $this->application->observer->attach([$this, "onAfterRouteMatch"], "Dispatcher.afterRouteMatch");
+
+        /**
+         * The base route;
+         *
+         */
+        Route::attach("/api", "Budkit\\Api\\Controller\\Rest", function($route){
+            $route->setSecure( true );
             $route->setTokens(array(
-                'id'		=> '\d+',
                 'format'	=> '(\.[^/]+)?'
             ));
-            //subroutes
-            $route->add('{format}','index');
-            $route->add('{/id}{format}', "view");
-            $route->add('{/id}/edit{format}', "edit");
+
+            //@TODO extend this route with the API definition
+
+            //$route->setIsStateless(); //session destroyed after each requested; authenticate in Dispatch.afterRouteMatch
+            $route->add('{format}','index')
+                ->setSecure( true )
+                ->setIsStateless()
+                ->setPermissionHandler("view", "checkPermission");
 
         });
+    }
+
+
+    public function onAfterRouteMatch($Event){
+
+        $session = $this->application->session;
+
+        //authenticate using oauth 2;
+
+        //print_R($session);
+
+
     }
 
     public function definition() {
