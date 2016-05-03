@@ -23,10 +23,20 @@ class Provider implements Service {
 
         $this->application->observer->attach([$this, "onAfterRouteMatch"], "Dispatcher.afterRouteMatch");
 
-        /**
-         * The base route;
-         *
-         */
+        //Request check Check Keys and everything...
+        $this->application->observer->attach([$this, "onBeforeDispatch"], "'Dispatcher.beforeDispatch'");
+
+        //Response check
+        $this->application->observer->attach([$this, "onAfterDispatch"], "'Dispatcher.afterDispatch'");
+
+
+        $this->registerRoutes();
+
+    }
+
+
+    public function registerRoutes(){
+
         Route::attach("/api", "Budkit\\Api\\Controller\\Rest", function($route){
             $route->setSecure( true );
             $route->setTokens(array(
@@ -40,10 +50,9 @@ class Provider implements Service {
                 ->setSecure( true )
                 ->setIsStateless()
                 ->setPermissionHandler("view", "checkPermission");
-
         });
-    }
 
+    }
 
     public function onAfterRouteMatch($Event){
 
@@ -53,6 +62,15 @@ class Provider implements Service {
 
         //print_R($session);
 
+
+    }
+
+
+    public function onBeforeDispatch($Event){
+
+    }
+
+    public function onAfterDispatch($Event){
 
     }
 
