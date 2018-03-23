@@ -1,7 +1,7 @@
 {
     "name": "budkit/api",
     "description": "Generates an API for your budkit platform",
-    "license": "GPLv3",
+    "license": "MIT",
     "authors": [
         {
             "name": "Livingstone Fultang",
