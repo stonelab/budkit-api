@@ -12,7 +12,7 @@ class Rest extends Controller {
     }
 
     public function index(){
-        echo "RESTful API";
+        echo "{test: RESTful API}";
     }
 
     public function checkPermission(){
